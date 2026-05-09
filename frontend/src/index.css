@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+  html {
+    background: #050505;
+    color: #f4f4f5;
+    font-family: "Manrope", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    margin: 0;
+    background: #050505;
+    color: #f4f4f5;
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: #f4f4f5;
+    color: #050505;
+  }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: #050505; }
+  ::-webkit-scrollbar-thumb { background: #1c1c1c; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #2a2a2a; }
+
+  /* Hide native cursor on devices that have a fine pointer */
+  @media (pointer: fine) {
+    html, body { cursor: none; }
+    a, button, [role="button"], input, textarea, select { cursor: none !important; }
+  }
+}
+
+@layer utilities {
+  .font-display { font-family: "Cabinet Grotesk", system-ui, sans-serif; }
+  .font-mono-tech { font-family: "JetBrains Mono", ui-monospace, monospace; }
+  .text-balance { text-wrap: balance; }
+
+  /* Subtle film grain */
+  .grain::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Dotted grid (zaid-style) */
+  .dot-grid {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 26px 26px;
+    background-position: 0 0;
+  }
+
+  /* Marquee */
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 38s linear infinite;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* Soft glow */
+  .halo {
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.06), transparent 70%);
+    filter: blur(60px);
+  }
+
+  /* Reveal mask */
+  @keyframes reveal-up {
+    from { transform: translateY(110%); }
+    to   { transform: translateY(0%); }
+  }
+  .reveal-line { display: inline-block; overflow: hidden; vertical-align: bottom; }
+  .reveal-line > span { display: inline-block; animation: reveal-up 0.95s cubic-bezier(0.22,1,0.36,1) both; }
+
+  /* Underline draw */
+  .link-underline { position: relative; }
+  .link-underline::after {
+    content: "";
+    position: absolute; left: 0; bottom: -3px;
+    width: 100%; height: 1px;
+    background: currentColor;
+    transform: scaleX(0); transform-origin: right;
+    transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+  }
+  .link-underline:hover::after { transform: scaleX(1); transform-origin: left; }
+
+  /* Glass card */
+  .glass {
+    background: rgba(255, 255, 255, 0.025);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Pill float nav */
+  .pill-nav {
+    background: rgba(10, 10, 10, 0.65);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* Service card image gradient overlay */
+  .card-img-frame {
+    background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* Cursor element base — actual movement handled by Framer Motion */
+  .cursor-dot, .cursor-ring {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    will-change: transform;
+  }
+  .cursor-dot { width: 6px; height: 6px; border-radius: 999px; background: #fff; mix-blend-mode: difference; }
+  .cursor-ring { width: 36px; height: 36px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.5); mix-blend-mode: difference; }
+}
